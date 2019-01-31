@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+import * as program from 'commander'
+
+program
+    .version('0.0.1')
+    .arguments('<command> [args]')
+    .description('awcli is the command line interface for creating and publishing adapters for the Adaptive Web platform.')
+    .command('init', 'initiates a new adapter in the current directory')
+    .command('publish', 'publishes an adapter to be downloadable from adaptiveweb.io')
+    .parse(process.argv);

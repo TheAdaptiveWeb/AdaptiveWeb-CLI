@@ -1,0 +1,29 @@
+{
+  "name": "awcli",
+  "version": "0.0.1-alpha.0",
+  "description": "awcli is the command line interface for creating and publishing adapters for the Adaptive Web platform",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheAdaptiveWeb/AdaptiveWeb-CLI.git"
+  },
+  "author": "",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/TheAdaptiveWeb/AdaptiveWeb-CLI/issues"
+  },
+  "homepage": "https://github.com/TheAdaptiveWeb/AdaptiveWeb-CLI#readme",
+  "bin": {
+    "awcli": "dist/main.js"
+  },
+  "dependencies": {
+    "@types/inquirer": "0.0.43",
+    "@types/node": "^10.12.18",
+    "commander": "^2.19.0",
+    "inquirer": "^6.2.1",
+    "typescript": "^3.2.2"
+  }
+}

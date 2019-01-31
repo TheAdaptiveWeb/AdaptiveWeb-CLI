@@ -1,0 +1,88 @@
+import * as fs from 'fs';
+import inquirer = require("inquirer");
+
+let folderName = process.cwd().replace(/.*\//g, '');
+
+let questions = (name: string) => [
+    {
+        name: 'uuid',
+        message: 'package identifier',
+        default: name.toLowerCase().replace(/ /g, '-'),
+    },
+    {
+        name: 'version',
+        message: 'version:',
+        default: '1.0.0',
+        type: 'input'
+    },
+    {
+        name: 'description',
+        message: 'description:',
+        type: 'input'
+    },
+    {
+        name: 'template',
+        message: 'initiate from template',
+        type: 'list',
+        choices: [
+            { name: 'TypeScript + Webpack', value: 'ts-webpack' },
+            new inquirer.Separator(),
+            { name: 'JavaScript + Webpack', value: 'js-webpack' },
+            { name: 'JavaScript Standalone', value: 'js' },
+            new inquirer.Separator(),
+            { name: 'No template', value: 'none' },
+        ]
+    },
+    {
+        name: 'script',
+        message: 'script file',
+        type: 'input',
+        default: 'index.js',
+        when: function(answers: any) {
+            return answers.template == 'none';
+        }
+    },
+    // {
+    //     name: 'tests',
+    //     message: 'setup test configuration',
+    //     type: 'list',
+    //     choices: [
+    //         { name: 'TypeScript + Webpack', value: 'ts-webpack' },
+    //         new inquirer.Separator(),
+    //         { name: 'JavaScript + Webpack', value: 'js-webpack' },
+    //         { name: 'JavaScript Standalone', value: 'js' },
+    //         new inquirer.Separator(),
+    //         { name: 'No template', value: 'none' },
+    //     ]
+    // },
+];
+
+let config: {
+    name: string,
+    uuid: string,
+    version: string,
+    description: string,
+    script: string
+};
+
+inquirer.prompt({
+    name: 'name',
+    message: 'adapter name:',
+    default: folderName,
+    type: 'input'
+}).then((name: any) => {
+    inquirer.prompt(questions(name.name)).then((answers: any) => {
+        config = {
+            name: name.name,
+            uuid: answers.uuid,
+            version: answers.version,
+            description: answers.description,
+            script: answers.script
+        };
+        complete();
+    });
+});
+
+function complete() {
+    console.log(JSON.stringify(config, null, 4))
+}
