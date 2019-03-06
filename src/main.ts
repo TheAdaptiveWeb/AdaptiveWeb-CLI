@@ -6,5 +6,7 @@ program
     .arguments('<command> [args]')
     .description('awcli is the command line interface for creating and publishing adapters for the Adaptive Web platform.')
     .command('init', 'initiates a new adapter in the current directory')
-    .command('publish', 'publishes an adapter to be downloadable from adaptiveweb.io')
+    .command('build', 'build the adapter ready for deployment')
+    // .command('test', 'run browser tests')
+    // .command('publish', 'publishes an adapter to be downloadable from adaptiveweb.io')
     .parse(process.argv);

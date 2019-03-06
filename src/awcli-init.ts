@@ -1,6 +1,16 @@
 import * as fs from 'fs';
 import inquirer = require("inquirer");
 
+console.log(
+`This utility will walk you through the creation of a awconfig.json file.
+
+If you want to use preferences in your project, you will need to specify them
+the awconfig.json file once you have completed this utility. See
+[insert documentation link here] for details.
+
+Press ^C at any time to quit.`
+);
+
 let folderName = process.cwd().replace(/.*\//g, '');
 
 let questions = (name: string) => [
@@ -20,27 +30,27 @@ let questions = (name: string) => [
         message: 'description:',
         type: 'input'
     },
-    {
-        name: 'template',
-        message: 'initiate from template',
-        type: 'list',
-        choices: [
-            { name: 'TypeScript + Webpack', value: 'ts-webpack' },
-            new inquirer.Separator(),
-            { name: 'JavaScript + Webpack', value: 'js-webpack' },
-            { name: 'JavaScript Standalone', value: 'js' },
-            new inquirer.Separator(),
-            { name: 'No template', value: 'none' },
-        ]
-    },
+    // {
+    //     name: 'template',
+    //     message: 'initiate from template',
+    //     type: 'list',
+    //     choices: [
+    //         { name: 'TypeScript + Webpack', value: 'ts-webpack' },
+    //         new inquirer.Separator(),
+    //         { name: 'JavaScript + Webpack', value: 'js-webpack' },
+    //         { name: 'JavaScript Standalone', value: 'js' },
+    //         new inquirer.Separator(),
+    //         { name: 'No template', value: 'none' },
+    //     ]
+    // },
     {
         name: 'script',
-        message: 'script file',
+        message: 'entry point:',
         type: 'input',
         default: 'index.js',
-        when: function(answers: any) {
-            return answers.template == 'none';
-        }
+        // when: function(answers: any) {
+        //     return answers.template == 'none';
+        // }
     },
     // {
     //     name: 'tests',
@@ -84,5 +94,6 @@ inquirer.prompt({
 });
 
 function complete() {
-    console.log(JSON.stringify(config, null, 4))
+    fs.writeFileSync('./awconfig.js', JSON.stringify(config, null, 4));
+    console.log('Config successfully written to awconfig.json');
 }

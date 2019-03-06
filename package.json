@@ -4,7 +4,8 @@
   "description": "awcli is the command line interface for creating and publishing adapters for the Adaptive Web platform",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -20,9 +21,11 @@
     "awcli": "dist/main.js"
   },
   "dependencies": {
+    "@types/gulp": "^4.0.6",
     "@types/inquirer": "0.0.43",
     "@types/node": "^10.12.18",
     "commander": "^2.19.0",
+    "gulp": "^4.0.0",
     "inquirer": "^6.2.1",
     "typescript": "^3.2.2"
   }
