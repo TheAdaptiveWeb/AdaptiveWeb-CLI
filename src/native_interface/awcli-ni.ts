@@ -11,7 +11,11 @@ const io = require('socket.io')(http);
 
 const port = 13551;
 
-http.listen(port, () => { console.log('Development server listening on port ' + port); });
+let server = http.listen(port, () => { console.log('Development server listening on port ' + port); });
+server.on('error', (err: any) => {
+    console.error(err);
+    process.exit(1);
+});
 
 process.stdin.resume();
 process.stdin.on('end', () => {
