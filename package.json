@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/TheAdaptiveWeb/AdaptiveWeb-CLI#readme",
   "bin": {
-    "awcli": "dist/main.js"
+    "awcli": "dist/main.js",
+    "awcli-ni": "dist/native_interface/awcli-ni.js"
   },
   "dependencies": {
     "@types/gulp": "^4.0.6",
