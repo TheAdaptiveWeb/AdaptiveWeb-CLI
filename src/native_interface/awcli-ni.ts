@@ -28,16 +28,30 @@ function createIfNonExistant(path: string) {
 
 createIfNonExistant(AWCLI_NI_WATCH_LOCATION);
 
+function loadAdapter(filename: string): any {
+    let path = AWCLI_NI_WATCH_LOCATION + '/' + filename;
+    if (!fs.existsSync(path)) return;
+    let raw: string = fs.readFileSync(path, 'utf8');
+    let json: any = JSON.parse(raw);
+    return json;
+}
+
 // Start watching
+
+io.on('connection', (socket: any) => {
+    socket.on('requestAdapters', (callback: Function) => {
+        fs.readdir(AWCLI_NI_WATCH_LOCATION, (err, files) => {
+            let adapters = files.map(file => loadAdapter(file));
+            callback(adapters);
+        });
+    });
+});
 
 fs.watch(AWCLI_NI_WATCH_LOCATION, (event, filename) => {
     try {
         if (filename.endsWith('.json')) {
             // Load file
-            let path = AWCLI_NI_WATCH_LOCATION + '/' + filename;
-            if (!fs.existsSync(path)) return;
-            let raw: string = fs.readFileSync(path, 'utf8');
-            let json: any = JSON.parse(raw);
+            let json = loadAdapter(filename);
             io.local.emit('adapterUpdate', json);
         }
     } catch (ex) { console.error(ex); }
