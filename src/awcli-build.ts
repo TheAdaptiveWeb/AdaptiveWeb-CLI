@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { src, dest } from 'gulp';
+import * as Builder from './tasks/BuildHelpers';
 
 console.log('Locating awconfig.json');
 
@@ -23,6 +24,7 @@ if (awConfigLocation === '') {
 
 console.log('Located awconfig.json');
 
-let awconfig = JSON.stringify(fs.readFileSync(awConfigLocation));
+let awconfig = JSON.parse(fs.readFileSync(awConfigLocation, 'utf8'));
+awconfig.webpackConfig = dir + '/' + awconfig.webpackConfig;
 
-// Todo, minify, webpack etc.
+Builder.build(awconfig, './');

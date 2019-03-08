@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const path = require("path");
+const Builder = require("./tasks/BuildHelpers");
 console.log('Locating awconfig.json');
 let awConfigLocation = '';
 let dir = process.cwd();
@@ -19,5 +20,6 @@ if (awConfigLocation === '') {
     process.exit(1);
 }
 console.log('Located awconfig.json');
-let awconfig = JSON.stringify(fs.readFileSync(awConfigLocation));
-// Todo, minify, webpack etc.
+let awconfig = JSON.parse(fs.readFileSync(awConfigLocation, 'utf8'));
+awconfig.webpackConfig = dir + '/' + awconfig.webpackConfig;
+Builder.build(awconfig, './');

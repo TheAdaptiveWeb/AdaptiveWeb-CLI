@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import inquirer = require("inquirer");
+import * as WebpackConfig from './tasks/WebpackConfigurations';
 
 console.log(
 `This utility will walk you through the creation of a awconfig.json file.
@@ -72,7 +73,8 @@ let config: {
     uuid: string,
     version: string,
     description: string,
-    script: string
+    script: string,
+    webpackConfig: string
 };
 
 inquirer.prompt({
@@ -87,13 +89,15 @@ inquirer.prompt({
             uuid: answers.uuid,
             version: answers.version,
             description: answers.description,
-            script: answers.script
+            script: answers.script,
+            webpackConfig: './webpack.config.js'
         };
         complete();
     });
 });
 
 function complete() {
-    fs.writeFileSync('./awconfig.js', JSON.stringify(config, null, 4));
+    fs.writeFileSync('./awconfig.json', JSON.stringify(config, null, 4));
+    fs.writeFileSync(config.webpackConfig, WebpackConfig.Default(config.script));
     console.log('Config successfully written to awconfig.json');
 }

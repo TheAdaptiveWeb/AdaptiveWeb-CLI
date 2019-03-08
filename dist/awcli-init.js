@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const inquirer = require("inquirer");
+const WebpackConfig = require("./tasks/WebpackConfigurations");
 console.log(`This utility will walk you through the creation of a awconfig.json file.
 
 If you want to use preferences in your project, you will need to specify them
@@ -60,12 +61,14 @@ inquirer.prompt({
             uuid: answers.uuid,
             version: answers.version,
             description: answers.description,
-            script: answers.script
+            script: answers.script,
+            webpackConfig: './webpack.config.js'
         };
         complete();
     });
 });
 function complete() {
-    fs.writeFileSync('./awconfig.js', JSON.stringify(config, null, 4));
+    fs.writeFileSync('./awconfig.json', JSON.stringify(config, null, 4));
+    fs.writeFileSync(config.webpackConfig, WebpackConfig.Default(config.script));
     console.log('Config successfully written to awconfig.json');
 }
