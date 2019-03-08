@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const AWCLI_NI_ROOT = process.env.HOME + '/.adaptiveweb/developer';
-const AWCLI_NI_WATCH_LOCATION = AWCLI_NI_ROOT + '/.adaptiveweb/dev_adapters';
+const AWCLI_NI_WATCH_LOCATION = AWCLI_NI_ROOT + '/dev_adapters';
 function createIfNonExistant(path) {
     if (!fs.existsSync(path))
         fs.mkdirSync(path, { recursive: true });
@@ -18,9 +18,7 @@ try {
             if (!fs.existsSync(path))
                 return;
             let raw = fs.readFileSync(path, 'utf8');
-            let json = JSON.parse(raw);
-            json.devmode = true;
-            console.log(JSON.stringify(json));
+            console.log(raw);
         }
     });
 }

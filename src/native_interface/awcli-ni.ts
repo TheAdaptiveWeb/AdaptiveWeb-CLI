@@ -3,7 +3,7 @@
 import * as fs from 'fs';
 
 const AWCLI_NI_ROOT = process.env.HOME + '/.adaptiveweb/developer';
-const AWCLI_NI_WATCH_LOCATION = AWCLI_NI_ROOT + '/.adaptiveweb/dev_adapters';
+const AWCLI_NI_WATCH_LOCATION = AWCLI_NI_ROOT + '/dev_adapters';
 
 function createIfNonExistant(path: string) {
     if (!fs.existsSync(path)) fs.mkdirSync(path, { recursive: true });
@@ -19,9 +19,7 @@ try {
             let path = AWCLI_NI_WATCH_LOCATION + '/' + filename;
             if (!fs.existsSync(path)) return;
             let raw: string = fs.readFileSync(path, 'utf8');
-            let json: any = JSON.parse(raw);
-            json.devmode = true;
-            console.log(JSON.stringify(json));
+            console.log(raw);
         }
     });
 } catch (ex) { console.error(ex); }
