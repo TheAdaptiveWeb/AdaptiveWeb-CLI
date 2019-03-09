@@ -7,9 +7,9 @@ program
     .description('awcli is the command line interface for creating and publishing adapters for the Adaptive Web platform.')
     .command('init', 'initiates a new adapter in the current directory')
     .command('build', 'build the adapter ready for deployment')
-    .command('watch', 'test the adapter in browser')
-    .command('detach [id]', 'detach an adapter from the extension')
-    .command('list', 'list the attached developer adapters')
+    .command('watch', 'test the adapter in browser').alias('run')
+    .command('detach [id]', 'detach an adapter from the extension').alias('rm')
+    .command('list', 'list the attached developer adapters').alias('l')
     // .command('test', 'run browser tests')
     // .command('publish', 'publishes an adapter to be downloadable from adaptiveweb.io')
     .parse(process.argv);
