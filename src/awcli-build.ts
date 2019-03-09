@@ -9,4 +9,4 @@ let { dir, config } = getConfig();
 let awconfig = JSON.parse(fs.readFileSync(config, 'utf8'));
 awconfig.webpackConfig = dir + '/' + awconfig.webpackConfig;
 
-Builder.build(awconfig, './');
+Builder.build(awconfig, './build');

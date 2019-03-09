@@ -11,6 +11,8 @@ function build(adapter, outputLocation) {
         }
         // Success
         console.log('Webpacking successfully; Compiling adapter.');
+        if (!fs.existsSync(outputLocation))
+            fs.mkdirSync(outputLocation, { recursive: true });
         writeAdapter(adapter, webpackConfig.output.path + '/main.js', outputLocation);
     }));
 }
