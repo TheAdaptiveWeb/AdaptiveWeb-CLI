@@ -5,6 +5,11 @@ import { userInfo } from 'os';
 import { getRepository } from './tasks/RepositoryInfo';
 import { Package } from './tasks/PackageJson';
 
+if (fs.existsSync('./awconfig.json')) {
+    console.error('Could not initiate adapter: awconfig.json already exists!');
+    process.exit(1);
+}
+
 console.log(
 `This utility will walk you through the creation of a awconfig.json file.
 

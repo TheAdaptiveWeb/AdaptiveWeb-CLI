@@ -6,6 +6,10 @@ const WebpackConfig = require("./tasks/WebpackConfigurations");
 const os_1 = require("os");
 const RepositoryInfo_1 = require("./tasks/RepositoryInfo");
 const PackageJson_1 = require("./tasks/PackageJson");
+if (fs.existsSync('./awconfig.json')) {
+    console.error('Could not initiate adapter: awconfig.json already exists!');
+    process.exit(1);
+}
 console.log(`This utility will walk you through the creation of a awconfig.json file.
 
 If you want to use preferences in your project, you will need to specify them
