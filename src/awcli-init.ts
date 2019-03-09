@@ -1,6 +1,9 @@
 import * as fs from 'fs';
 import inquirer = require("inquirer");
 import * as WebpackConfig from './tasks/WebpackConfigurations';
+import { userInfo } from 'os';
+import { getRepository } from './tasks/RepositoryInfo';
+import { Package } from './tasks/PackageJson';
 
 console.log(
 `This utility will walk you through the creation of a awconfig.json file.
@@ -13,6 +16,8 @@ Press ^C at any time to quit.`
 );
 
 let folderName = process.cwd().replace(/.*\//g, '');
+
+let repoUrl = getRepository();
 
 let questions = (name: string) => [
     {
@@ -31,41 +36,45 @@ let questions = (name: string) => [
         message: 'description:',
         type: 'input'
     },
-    // {
-    //     name: 'template',
-    //     message: 'initiate from template',
-    //     type: 'list',
-    //     choices: [
-    //         { name: 'TypeScript + Webpack', value: 'ts-webpack' },
-    //         new inquirer.Separator(),
-    //         { name: 'JavaScript + Webpack', value: 'js-webpack' },
-    //         { name: 'JavaScript Standalone', value: 'js' },
-    //         new inquirer.Separator(),
-    //         { name: 'No template', value: 'none' },
-    //     ]
-    // },
+    {
+        name: 'template',
+        message: 'initiate from template',
+        type: 'list',
+        choices: [
+            { name: 'TypeScript + Webpack', value: 'ts-webpack' },
+            { name: 'JavaScript + Webpack', value: 'js-webpack' }
+        ]
+    },
+    {
+        name: 'script',
+        message: 'entry point:',
+        type: 'input',
+        default: 'index.ts',
+        when: function(answers: any) {
+            return answers.template == 'ts-webpack';
+        }
+    },
     {
         name: 'script',
         message: 'entry point:',
         type: 'input',
         default: 'index.js',
-        // when: function(answers: any) {
-        //     return answers.template == 'none';
-        // }
+        when: function(answers: any) {
+            return answers.template == 'js-webpack';
+        }
     },
-    // {
-    //     name: 'tests',
-    //     message: 'setup test configuration',
-    //     type: 'list',
-    //     choices: [
-    //         { name: 'TypeScript + Webpack', value: 'ts-webpack' },
-    //         new inquirer.Separator(),
-    //         { name: 'JavaScript + Webpack', value: 'js-webpack' },
-    //         { name: 'JavaScript Standalone', value: 'js' },
-    //         new inquirer.Separator(),
-    //         { name: 'No template', value: 'none' },
-    //     ]
-    // },
+    {
+        name: 'repo',
+        message: 'git repository:',
+        type: 'input',
+        default: repoUrl
+    },
+    {
+        name: 'author',
+        message: 'author:',
+        type: 'input',
+        default: userInfo().username,
+    }
 ];
 
 let config: {
@@ -74,8 +83,11 @@ let config: {
     version: string,
     description: string,
     script: string,
-    webpackConfig: string
+    webpackConfig: string,
+    author: string
 };
+let template: string;
+let gitRepo: string;
 
 inquirer.prompt({
     name: 'name',
@@ -90,14 +102,32 @@ inquirer.prompt({
             version: answers.version,
             description: answers.description,
             script: answers.script,
-            webpackConfig: './webpack.config.js'
+            webpackConfig: './webpack.config.js',
+            author: answers.author
         };
+        template = answers.template;
+        gitRepo = answers.repo;
         complete();
     });
 });
 
 function complete() {
     fs.writeFileSync('./awconfig.json', JSON.stringify(config, null, 4));
-    fs.writeFileSync(config.webpackConfig, WebpackConfig.Default(config.script));
-    console.log('Config successfully written to awconfig.json');
+    let wpConfig, deps;
+    switch (template) {
+        case 'ts-webpack':
+        wpConfig = WebpackConfig.Typescript(config.script);
+        deps = Package.typescriptDependencies;
+        break;
+        case 'js-webpack':
+        wpConfig = WebpackConfig.Default(config.script);
+        deps = Package.sharedDependencies;
+    }
+    fs.writeFileSync(config.webpackConfig, wpConfig);
+    fs.writeFileSync('./package.json', Package.json(config, gitRepo));
+
+    console.log('Installing dependencies');
+    Package.installDependencies(deps, () => {
+        console.log('Config successfully written to awconfig.json');
+    });
 }
