@@ -4,21 +4,14 @@ import * as WebpackConfig from './tasks/WebpackConfigurations';
 import { userInfo } from 'os';
 import { getRepository } from './tasks/RepositoryInfo';
 import { Package } from './tasks/PackageJson';
+import { introduction, nextSteps } from './tasks/Messages';
 
 if (fs.existsSync('./awconfig.json')) {
     console.error('Could not initiate adapter: awconfig.json already exists!');
     process.exit(1);
 }
 
-console.log(
-`This utility will walk you through the creation of a awconfig.json file.
-
-If you want to use preferences in your project, you will need to specify them
-the awconfig.json file once you have completed this utility. See
-[insert documentation link here] for details.
-
-Press ^C at any time to quit.`
-);
+console.log(introduction);
 
 let folderName = process.cwd().replace(/.*\//g, '');
 
@@ -130,9 +123,12 @@ function complete() {
     }
     fs.writeFileSync(config.webpackConfig, wpConfig);
     fs.writeFileSync('./package.json', Package.json(config, gitRepo));
+    if (!fs.existsSync(config.script)) fs.writeFileSync(config.script, 'alert("Hello, Adaptive Web!");');
 
     console.log('Installing dependencies');
     Package.installDependencies(deps, () => {
         console.log('Config successfully written to awconfig.json');
+        console.log();
+        console.log(nextSteps);
     });
 }
