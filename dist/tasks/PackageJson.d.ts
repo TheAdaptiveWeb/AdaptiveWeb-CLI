@@ -3,4 +3,5 @@ export declare const Package: {
     installDependencies: (deps: string[], callback: Function) => void;
     sharedDependencies: any;
     typescriptDependencies: any;
+    tsconfig: string;
 };

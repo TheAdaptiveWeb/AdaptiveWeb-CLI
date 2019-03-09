@@ -6,7 +6,7 @@ export function build(adapter: any, outputLocation: string) {
     webpack(webpackConfig, ((err: Error, stats: webpack.Stats) => {
         if (err || stats.compilation.errors.length > 1) {
             // Errors
-            console.error('Encountered a build error:', err, stats.compilation.errors);
+            console.error('Encountered a build error (webpack):', err, stats.compilation.errors);
         }
         // Success
         console.log('Webpacking successfully; Compiling adapter.');

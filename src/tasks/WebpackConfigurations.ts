@@ -11,9 +11,9 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "build"),
-        filename: "[name].js"
+        filename: "main.js"
     }
-};`;
+};`; 
 
 export const Typescript: Function = (entry: string) =>
 `const path = require("path");
@@ -37,6 +37,6 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "build"),
-        filename: "[name].js"
+        filename: "main.js"
     }
 };`;

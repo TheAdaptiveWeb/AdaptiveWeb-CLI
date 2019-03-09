@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as Builder from './tasks/BuildHelpers';
 import { getConfig } from './tasks/LocateConfig';
 import { spawn } from 'child_process';
+import { startServer } from './native_interface/awcli-ni';
 const watch: any = require('node-watch');
 
 const AWCLI_NI_ROOT = process.env.HOME + '/.adaptiveweb/developer';
@@ -20,9 +21,11 @@ awconfig.webpackConfig = dir + '/' + awconfig.webpackConfig;
 
 Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
 
-require('./native_interface/awcli-ni');
+startServer();
   
+console.log('Watching for file changes.');
 watch(dir, { recursive: true }, (event: any, filename: string) => {
+    console.log('File change detected: ' + filename + '; Rebuilding');
     try {
         if (filename.startsWith(dir + '/build')) return;
         if (filename.startsWith(dir + '/dist')) return;

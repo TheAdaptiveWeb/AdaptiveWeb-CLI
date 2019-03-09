@@ -2,12 +2,27 @@ import * as npm from 'npm';
 
 const sharedDependencies: any = [ 
     'webpack',
+    'adaptiveweb'
 ];
 
 const typescriptDependencies: any = [
     ...sharedDependencies,
-    'typescript'
+    'typescript',
+    'ts-loader'
 ];
+
+const tsconfig =
+`{
+    "extends": "./node_modules/adaptiveweb/tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "rootDir": ".",
+        "outDir": "build",
+        "declaration": false,
+        "noImplicitReturns": false
+    },
+    "compileOnSave": true
+}`;
 
 export const Package = {
 
@@ -50,6 +65,6 @@ installDependencies: (deps: string[], callback: Function) => {
     });
 },
 
-sharedDependencies, typescriptDependencies
+sharedDependencies, typescriptDependencies, tsconfig
 
 }

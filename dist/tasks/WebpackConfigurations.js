@@ -12,7 +12,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "build"),
-        filename: "[name].js"
+        filename: "main.js"
     }
 };`;
 exports.Typescript = (entry) => `const path = require("path");
@@ -36,6 +36,6 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "build"),
-        filename: "[name].js"
+        filename: "main.js"
     }
 };`;

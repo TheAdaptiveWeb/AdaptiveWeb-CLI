@@ -102,6 +102,7 @@ function complete() {
         case 'ts-webpack':
             wpConfig = WebpackConfig.Typescript(config.script);
             deps = PackageJson_1.Package.typescriptDependencies;
+            fs.writeFileSync('./tsconfig.json', PackageJson_1.Package.tsconfig);
             break;
         case 'js-webpack':
             wpConfig = WebpackConfig.Default(config.script);

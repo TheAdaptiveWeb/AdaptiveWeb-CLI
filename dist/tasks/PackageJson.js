@@ -3,11 +3,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const npm = require("npm");
 const sharedDependencies = [
     'webpack',
+    'adaptiveweb'
 ];
 const typescriptDependencies = [
     ...sharedDependencies,
-    'typescript'
+    'typescript',
+    'ts-loader'
 ];
+const tsconfig = `{
+    "extends": "./node_modules/adaptiveweb/tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "rootDir": ".",
+        "outDir": "build",
+        "declaration": false,
+        "noImplicitReturns": false
+    },
+    "compileOnSave": true
+}`;
 exports.Package = {
     json: (adapter, git) => `{
     "name": "@adaptiveweb/${adapter.uuid}",
@@ -45,5 +58,5 @@ exports.Package = {
             });
         });
     },
-    sharedDependencies, typescriptDependencies
+    sharedDependencies, typescriptDependencies, tsconfig
 };
