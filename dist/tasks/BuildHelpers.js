@@ -7,7 +7,11 @@ function build(adapter, outputLocation) {
     webpack(webpackConfig, ((err, stats) => {
         if (err || stats.compilation.errors.length > 1) {
             // Errors
-            console.error('Encountered a build error (webpack):', err, stats.compilation.errors);
+            console.error('Encountered build error(s):');
+            stats.compilation.errors.forEach(error => {
+                console.log(error.message);
+            });
+            return;
         }
         // Success
         console.log('Webpacking successfully; Compiling adapter.');
