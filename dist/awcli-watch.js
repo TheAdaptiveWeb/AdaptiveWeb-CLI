@@ -17,12 +17,12 @@ Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
 awcli_ni_1.startServer();
 console.log('Watching for file changes.');
 watch(dir, { recursive: true }, (event, filename) => {
-    console.log('File change detected: ' + filename + '; Rebuilding');
     try {
         if (filename.startsWith(dir + '/build'))
             return;
         if (filename.startsWith(dir + '/dist'))
             return;
+        console.log('File change detected: ' + filename + '; Rebuilding');
         Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
     }
     catch (ex) {
