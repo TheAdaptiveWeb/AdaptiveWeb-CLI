@@ -5,6 +5,7 @@ import { userInfo } from 'os';
 import { getRepository } from './tasks/RepositoryInfo';
 import { Package } from './tasks/PackageJson';
 import { introduction, nextSteps } from './tasks/Messages';
+import defaultScripts from './tasks/DefaultScripts';
 
 if (fs.existsSync('./awconfig.json')) {
     console.error('Could not initiate adapter: awconfig.json already exists!');
@@ -111,20 +112,22 @@ inquirer.prompt({
 
 function complete() {
     fs.writeFileSync('./awconfig.json', JSON.stringify(config, null, 4));
-    let wpConfig, deps;
+    let wpConfig, deps, defaultScript;
     switch (template) {
         case 'ts-webpack':
         wpConfig = WebpackConfig.Typescript(config.script);
         deps = Package.typescriptDependencies;
+        defaultScript = defaultScripts.typescript;
         fs.writeFileSync('./tsconfig.json', Package.tsconfig);
         break;
         case 'js-webpack':
         wpConfig = WebpackConfig.Default(config.script);
         deps = Package.sharedDependencies;
+        defaultScript = defaultScripts.javascript;
     }
     fs.writeFileSync(config.webpackConfig, wpConfig);
     fs.writeFileSync('./package.json', Package.json(config, gitRepo));
-    if (!fs.existsSync(config.script)) fs.writeFileSync(config.script, 'alert("Hello, Adaptive Web!");');
+    if (!fs.existsSync(config.script)) fs.writeFileSync(config.script, defaultScript);
 
     console.log('Installing dependencies');
     Package.installDependencies(deps, () => {
