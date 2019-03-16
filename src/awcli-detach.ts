@@ -23,5 +23,16 @@ if (args.length == 0) {
     let json = JSON.parse(fs.readFileSync(config, 'utf8'));
     detachAdapter(json.id);
 } else {
-    args.forEach(detachAdapter);
+    args.forEach(id => {
+        if (id == 'all') {
+            fs.readdir(AWCLI_NI_WATCH_LOCATION, (err, files) => {
+                files.forEach(file => {
+                    fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + file);
+                });
+            });
+            console.log('Detached all adapters.')
+        } else {
+            detachAdapter(id);
+        }
+    });
 }
