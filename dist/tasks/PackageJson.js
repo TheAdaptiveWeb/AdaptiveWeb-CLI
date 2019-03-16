@@ -23,7 +23,7 @@ const tsconfig = `{
 }`;
 exports.Package = {
     json: (adapter, git) => `{
-    "name": "@adaptiveweb/${adapter.uuid}",
+    "name": "@adaptiveweb/${adapter.id}",
     "version": "${adapter.version}",
     "description": "${adapter.description}",
     "main": "${adapter.script}",

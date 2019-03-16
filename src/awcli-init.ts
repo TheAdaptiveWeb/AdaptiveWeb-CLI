@@ -20,7 +20,7 @@ let repoUrl = getRepository();
 
 let questions = (name: string) => [
     {
-        name: 'uuid',
+        name: 'id',
         message: 'package identifier',
         default: name.toLowerCase().replace(/ /g, '-'),
     },
@@ -78,7 +78,7 @@ let questions = (name: string) => [
 
 let config: {
     name: string,
-    uuid: string,
+    id: string,
     version: string,
     description: string,
     script: string,
@@ -97,7 +97,7 @@ inquirer.prompt({
     inquirer.prompt(questions(name.name)).then((answers: any) => {
         config = {
             name: name.name,
-            uuid: answers.uuid,
+            id: answers.id,
             version: answers.version,
             description: answers.description,
             script: answers.script,

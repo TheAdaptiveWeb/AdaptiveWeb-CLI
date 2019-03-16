@@ -20,7 +20,7 @@ function detachAdapter(adapterId) {
 if (args.length == 0) {
     let { config } = LocateConfig_1.getConfig();
     let json = JSON.parse(fs.readFileSync(config, 'utf8'));
-    detachAdapter(json.uuid);
+    detachAdapter(json.id);
 }
 else {
     args.forEach(detachAdapter);

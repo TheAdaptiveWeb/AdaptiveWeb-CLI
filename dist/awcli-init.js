@@ -7,6 +7,7 @@ const os_1 = require("os");
 const RepositoryInfo_1 = require("./tasks/RepositoryInfo");
 const PackageJson_1 = require("./tasks/PackageJson");
 const Messages_1 = require("./tasks/Messages");
+const DefaultScripts_1 = require("./tasks/DefaultScripts");
 if (fs.existsSync('./awconfig.json')) {
     console.error('Could not initiate adapter: awconfig.json already exists!');
     process.exit(1);
@@ -16,7 +17,7 @@ let folderName = process.cwd().replace(/.*\//g, '');
 let repoUrl = RepositoryInfo_1.getRepository();
 let questions = (name) => [
     {
-        name: 'uuid',
+        name: 'id',
         message: 'package identifier',
         default: name.toLowerCase().replace(/ /g, '-'),
     },
@@ -83,7 +84,7 @@ inquirer.prompt({
     inquirer.prompt(questions(name.name)).then((answers) => {
         config = {
             name: name.name,
-            uuid: answers.uuid,
+            id: answers.id,
             version: answers.version,
             description: answers.description,
             script: answers.script,
@@ -97,21 +98,23 @@ inquirer.prompt({
 });
 function complete() {
     fs.writeFileSync('./awconfig.json', JSON.stringify(config, null, 4));
-    let wpConfig, deps;
+    let wpConfig, deps, defaultScript;
     switch (template) {
         case 'ts-webpack':
             wpConfig = WebpackConfig.Typescript(config.script);
             deps = PackageJson_1.Package.typescriptDependencies;
+            defaultScript = DefaultScripts_1.default.typescript;
             fs.writeFileSync('./tsconfig.json', PackageJson_1.Package.tsconfig);
             break;
         case 'js-webpack':
             wpConfig = WebpackConfig.Default(config.script);
             deps = PackageJson_1.Package.sharedDependencies;
+            defaultScript = DefaultScripts_1.default.javascript;
     }
     fs.writeFileSync(config.webpackConfig, wpConfig);
     fs.writeFileSync('./package.json', PackageJson_1.Package.json(config, gitRepo));
     if (!fs.existsSync(config.script))
-        fs.writeFileSync(config.script, 'alert("Hello, Adaptive Web!");');
+        fs.writeFileSync(config.script, defaultScript);
     console.log('Installing dependencies');
     PackageJson_1.Package.installDependencies(deps, () => {
         console.log('Config successfully written to awconfig.json');

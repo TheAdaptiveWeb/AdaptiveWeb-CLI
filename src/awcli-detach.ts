@@ -21,7 +21,7 @@ function detachAdapter(adapterId: string) {
 if (args.length == 0) {
     let { config } = getConfig();
     let json = JSON.parse(fs.readFileSync(config, 'utf8'));
-    detachAdapter(json.uuid);
+    detachAdapter(json.id);
 } else {
     args.forEach(detachAdapter);
 }

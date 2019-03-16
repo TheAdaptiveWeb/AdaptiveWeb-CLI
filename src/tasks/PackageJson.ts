@@ -28,7 +28,7 @@ export const Package = {
 
 json: (adapter: any, git: string) =>
 `{
-    "name": "@adaptiveweb/${adapter.uuid}",
+    "name": "@adaptiveweb/${adapter.id}",
     "version": "${adapter.version}",
     "description": "${adapter.description}",
     "main": "${adapter.script}",

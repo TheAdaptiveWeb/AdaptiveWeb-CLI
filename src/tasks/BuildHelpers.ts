@@ -25,7 +25,7 @@ function writeAdapter(adapter: any, from: string, to: string) {
     let raw = fs.readFileSync(from, 'utf8');
 
     let outAdapter = {
-        uuid: adapter.uuid,
+        id: adapter.id,
         name: adapter.name,
         description: adapter.description,
         version: adapter.version,
@@ -34,7 +34,7 @@ function writeAdapter(adapter: any, from: string, to: string) {
         preferenceSchema: adapter.preferenceSchema,
     }
 
-    fs.writeFileSync(to + '/' + adapter.uuid + '.json', JSON.stringify(outAdapter));
+    fs.writeFileSync(to + '/' + adapter.id + '.json', JSON.stringify(outAdapter));
 
     console.log('Adapter compilation successful!');
 }

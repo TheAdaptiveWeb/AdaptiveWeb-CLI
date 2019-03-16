@@ -8,7 +8,7 @@ fs.readdir(AWCLI_NI_WATCH_LOCATION, (err, files) => {
     let adapters = files.map(file => {
         if (file.endsWith('.json')) {
             let json = JSON.parse(fs.readFileSync(AWCLI_NI_WATCH_LOCATION + '/' + file, 'utf8'));
-            console.log(`- ${json.uuid} (${json.version}): ${json.description || '[no description]'}`);
+            console.log(`- ${json.id} (${json.version}): ${json.description || '[no description]'}`);
         }
     });
     console.log();
