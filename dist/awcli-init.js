@@ -30,7 +30,8 @@ let questions = (name) => [
     {
         name: 'description',
         message: 'description:',
-        type: 'input'
+        type: 'input',
+        default: 'Just another Adaptive Web adapter'
     },
     {
         name: 'template',

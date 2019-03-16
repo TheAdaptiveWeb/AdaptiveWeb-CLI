@@ -24,10 +24,14 @@ export function build(adapter: any, outputLocation: string) {
 function writeAdapter(adapter: any, from: string, to: string) {
     let raw = fs.readFileSync(from, 'utf8');
 
+    let about, aboutFile = adapter.aboutFile || 'about.md';
+    if (fs.existsSync(aboutFile)) about = fs.readFileSync(aboutFile, 'utf8');
+
     let outAdapter = {
         id: adapter.id,
         name: adapter.name,
         description: adapter.description,
+        about,
         version: adapter.version,
         tags: adapter.tags || [],
         script: raw,
