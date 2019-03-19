@@ -4,19 +4,16 @@ const fs = require("fs");
 const Builder = require("./tasks/BuildHelpers");
 const LocateConfig_1 = require("./tasks/LocateConfig");
 const awcli_ni_1 = require("./native_interface/awcli-ni");
+const Messages_1 = require("./tasks/Messages");
 const watch = require('node-watch');
 const AWCLI_NI_ROOT = process.env.HOME + '/.adaptiveweb/developer';
 const AWCLI_NI_WATCH_LOCATION = AWCLI_NI_ROOT + '/dev_adapters';
-console.log(`NOTE: To use this utility, you must have developer mode enabled:
-To enable developer mode, visit the configuration site ( https://adaptiveweb.io/configure ),
-visit the settings menu (on the sidebar), and enable developer mode.
-`);
+console.log(Messages_1.devModeWarning);
 let { dir, config } = LocateConfig_1.getConfig();
 let awconfig = JSON.parse(fs.readFileSync(config, 'utf8'));
 awconfig.webpackConfig = dir + '/' + awconfig.webpackConfig;
 Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
 awcli_ni_1.startServer();
-console.log('Watching for file changes.');
 watch(dir, { recursive: true }, (event, filename) => {
     try {
         if (filename.startsWith(dir + '/build'))
@@ -25,7 +22,7 @@ watch(dir, { recursive: true }, (event, filename) => {
             return;
         if (filename.startsWith(dir + '/node_modules'))
             return;
-        console.log('File change detected: ' + filename + '; Rebuilding');
+        process.stdout.write(Messages_1.watchingFileChanges + '\nFile change detected: ' + filename + '; Rebuilding');
         Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
     }
     catch (ex) {

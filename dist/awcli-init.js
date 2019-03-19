@@ -118,8 +118,7 @@ function complete() {
         fs.writeFileSync(config.script, defaultScript);
     console.log('Installing dependencies');
     PackageJson_1.Package.installDependencies(deps, () => {
-        console.log('Config successfully written to awconfig.json');
-        console.log();
+        console.log(Messages_1.configWritten);
         console.log(Messages_1.nextSteps);
     });
 }

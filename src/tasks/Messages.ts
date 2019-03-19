@@ -1,3 +1,5 @@
+import * as colors from 'colors/safe';
+
 export const introduction =
 `This utility will walk you through the creation of a awconfig.json file.
 
@@ -9,9 +11,22 @@ Press ^C at any time to quit.`;
 
 export const nextSteps =
 `Next steps:
-- \`awcli run\`     start the watcher and test your changes in the browser,
-- \`awcli build\`   build a production-ready version of your adapter
+- ${colors.red(`\`awcli run\``)}:     start the watcher and test your changes in the browser,
+- ${colors.red(`\`awcli build\``)}:   build a production-ready version of your adapter
 
-Visit https://github.com/TheAdaptiveWeb/docs for developer documentation.
+Visit ${colors.blue(colors.underline('https://github.com/TheAdaptiveWeb/docs'))} for developer documentation.
 
-🎉 Thanks for helping to build a better, more accessible web; you rock!‍ 🎉`;
+🎉 ${colors.green('Thanks for helping to build a better, more accessible web; you rock!‍')} 🎉`;
+
+export const configWritten =
+`${colors.green(colors.bold('Config successfully written to awconfig.json'))}
+`;
+
+export const devModeWarning =
+`${colors.bold('NOTE:')} To use this utility, you must have developer mode enabled:
+To enable developer mode, visit the configuration site (${colors.blue(colors.underline('https://adaptiveweb.io/configure'))}),
+visit the settings menu (on the sidebar), and enable developer mode.
+`;
+
+export const watchingFileChanges =
+`Watching for file changes.`;

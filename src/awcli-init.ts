@@ -4,7 +4,7 @@ import * as WebpackConfig from './tasks/WebpackConfigurations';
 import { userInfo } from 'os';
 import { getRepository } from './tasks/RepositoryInfo';
 import { Package } from './tasks/PackageJson';
-import { introduction, nextSteps } from './tasks/Messages';
+import { introduction, nextSteps, configWritten } from './tasks/Messages';
 import defaultScripts from './tasks/DefaultScripts';
 
 if (fs.existsSync('./awconfig.json')) {
@@ -132,8 +132,7 @@ function complete() {
 
     console.log('Installing dependencies');
     Package.installDependencies(deps, () => {
-        console.log('Config successfully written to awconfig.json');
-        console.log();
+        console.log(configWritten);
         console.log(nextSteps);
     });
 }
