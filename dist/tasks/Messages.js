@@ -18,7 +18,7 @@ Visit ${colors.blue(colors.underline('https://github.com/TheAdaptiveWeb/docs'))}
 exports.configWritten = `${colors.green(colors.bold('Config successfully written to awconfig.json'))}
 `;
 exports.devModeWarning = `${colors.bold('NOTE:')} To use this utility, you must have developer mode enabled:
-To enable developer mode, visit the configuration site (${colors.blue(colors.underline('https://adaptiveweb.io/configure'))}),
+To enable developer mode, visit the configuration site ( ${colors.blue(colors.underline('https://adaptiveweb.io/configure'))} ),
 visit the settings menu (on the sidebar), and enable developer mode.
 `;
 exports.watchingFileChanges = `Watching for file changes.`;
