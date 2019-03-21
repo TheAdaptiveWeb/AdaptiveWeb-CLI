@@ -9,12 +9,10 @@ function build(adapter, outputLocation) {
             // Errors
             console.error('Encountered build error(s):');
             stats.compilation.errors.forEach(error => {
-                console.log(error.message);
+                console.error(error.message);
             });
             return;
         }
-        // Success
-        console.log('Webpacking successfully; Compiling adapter.');
         if (!fs.existsSync(outputLocation))
             fs.mkdirSync(outputLocation, { recursive: true });
         writeAdapter(adapter, webpackConfig.output.path + '/main.js', outputLocation);
@@ -37,5 +35,4 @@ function writeAdapter(adapter, from, to) {
         preferenceSchema: adapter.preferenceSchema,
     };
     fs.writeFileSync(to + '/' + adapter.id + '.json', JSON.stringify(outAdapter));
-    console.log('Adapter compilation successful!');
 }

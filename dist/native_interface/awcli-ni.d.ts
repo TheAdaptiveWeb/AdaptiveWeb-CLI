@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-export declare function startServer(): void;
+export declare function startServer(callback?: () => void): void;
