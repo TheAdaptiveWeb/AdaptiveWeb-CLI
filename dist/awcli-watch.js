@@ -38,6 +38,10 @@ watch(dir, { recursive: true }, (event, filename) => {
             return;
         if (filename.startsWith(dir + '/node_modules'))
             return;
+        if (filename.startsWith(dir + '/.git'))
+            return;
+        if (filename.startsWith(dir + '/.vscode'))
+            return;
         if (filename.endsWith('awconfig.json'))
             loadConfig();
         log('File change detected: ' + filename + '; Rebuilding');

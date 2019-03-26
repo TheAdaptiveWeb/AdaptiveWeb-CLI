@@ -40,6 +40,8 @@ watch(dir, { recursive: true }, (event: any, filename: string) => {
         if (filename.startsWith(dir + '/build')) return;
         if (filename.startsWith(dir + '/dist')) return;
         if (filename.startsWith(dir + '/node_modules')) return;
+        if (filename.startsWith(dir + '/.git')) return;
+        if (filename.startsWith(dir + '/.vscode')) return;
 
         if (filename.endsWith('awconfig.json')) loadConfig();
         
