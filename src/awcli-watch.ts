@@ -16,7 +16,7 @@
 import * as fs from 'fs';
 import * as Builder from './tasks/BuildHelpers';
 import { getConfig } from './tasks/LocateConfig';
-import { startServer } from './native_interface/awcli-ni';
+import './native_interface/awcli-ni';
 import { devModeWarning, watchingFileChanges } from './tasks/Messages';
 import * as colors from 'colors';
 const watch: any = require('node-watch');
@@ -48,7 +48,11 @@ log(watchingFileChanges);
 Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
 log('Adapter ' + colors.bold(awconfig.id) + ' compilation successful!');
 
-startServer(() => { log('Development server started on port 13551.'); });
+process.on('beforeExit', () => {
+    log('Removing adapter');
+    fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + awconfig.id + '.json');
+    log('Exiting');
+});
 
 watch(dir, { recursive: true }, (event: any, filename: string) => {
     try {

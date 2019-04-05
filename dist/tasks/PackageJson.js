@@ -31,7 +31,8 @@ const tsconfig = `{
         "rootDir": ".",
         "outDir": "build",
         "declaration": false,
-        "noImplicitReturns": false
+        "noImplicitReturns": false,
+        "noUnusedLocals": false,
     },
     "compileOnSave": true
 }`;

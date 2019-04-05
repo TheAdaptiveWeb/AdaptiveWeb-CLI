@@ -17,7 +17,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const Builder = require("./tasks/BuildHelpers");
 const LocateConfig_1 = require("./tasks/LocateConfig");
-const awcli_ni_1 = require("./native_interface/awcli-ni");
+require("./native_interface/awcli-ni");
 const Messages_1 = require("./tasks/Messages");
 const colors = require("colors");
 const watch = require('node-watch');
@@ -43,7 +43,11 @@ loadConfig();
 log(Messages_1.watchingFileChanges);
 Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
 log('Adapter ' + colors.bold(awconfig.id) + ' compilation successful!');
-awcli_ni_1.startServer(() => { log('Development server started on port 13551.'); });
+process.on('beforeExit', () => {
+    log('Removing adapter');
+    fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + awconfig.id + '.json');
+    log('Exiting');
+});
 watch(dir, { recursive: true }, (event, filename) => {
     try {
         if (filename.startsWith(dir + '/build'))
