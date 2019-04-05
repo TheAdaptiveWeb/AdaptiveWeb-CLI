@@ -17,7 +17,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const Builder = require("./tasks/BuildHelpers");
 const LocateConfig_1 = require("./tasks/LocateConfig");
-require("./native_interface/awcli-ni");
+const awcli_ni_1 = require("./native_interface/awcli-ni");
 const Messages_1 = require("./tasks/Messages");
 const colors = require("colors");
 const watch = require('node-watch');
@@ -45,6 +45,7 @@ Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
 log('Adapter ' + colors.bold(awconfig.id) + ' compilation successful!');
 process.on('beforeExit', () => {
     log('Removing adapter');
+    awcli_ni_1.sendMessage('removeAdapter', awconfig.id);
     fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + awconfig.id + '.json');
     log('Exiting');
 });

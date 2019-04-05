@@ -46,13 +46,18 @@ function loadAdapter(filename: string): any {
 }
 
 // Start watching
-
 io.on('connection', (socket: any) => {
     socket.on('requestAdapters', (callback: Function) => {
         fs.readdir(AWCLI_NI_WATCH_LOCATION, (err, files) => {
             let adapters = files.map(file => loadAdapter(file));
             callback(adapters);
         });
+    });
+
+    socket.on('removeAdapter', (id: string) => {
+        if (fs.existsSync(AWCLI_NI_WATCH_LOCATION + '/' + id + '.json')) {
+            fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + id + '.json');
+        }
     });
 });
 
@@ -65,3 +70,7 @@ fs.watch(AWCLI_NI_WATCH_LOCATION, (_, filename) => {
         }
     } catch (ex) { console.error(ex); }
 });
+
+export function sendMessage(message: string, data: any) {
+    io.local.emit(message, data);
+}

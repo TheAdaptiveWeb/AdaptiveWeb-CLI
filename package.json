@@ -1,6 +1,6 @@
 {
   "name": "awcli",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "awcli is the command line interface for creating and publishing adapters for the Adaptive Web platform",
   "main": "main.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "awcli-ni": "dist/native_interface/awcli-ni.js"
   },
   "dependencies": {
+    "@octokit/rest": "^16.23.1",
     "@types/gulp": "^4.0.6",
     "@types/inquirer": "0.0.43",
     "@types/node": "^10.12.18",

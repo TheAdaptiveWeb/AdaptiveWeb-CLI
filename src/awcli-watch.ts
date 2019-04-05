@@ -16,7 +16,7 @@
 import * as fs from 'fs';
 import * as Builder from './tasks/BuildHelpers';
 import { getConfig } from './tasks/LocateConfig';
-import './native_interface/awcli-ni';
+import { sendMessage } from './native_interface/awcli-ni';
 import { devModeWarning, watchingFileChanges } from './tasks/Messages';
 import * as colors from 'colors';
 const watch: any = require('node-watch');
@@ -50,6 +50,7 @@ log('Adapter ' + colors.bold(awconfig.id) + ' compilation successful!');
 
 process.on('beforeExit', () => {
     log('Removing adapter');
+    sendMessage('removeAdapter', awconfig.id);
     fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + awconfig.id + '.json');
     log('Exiting');
 });

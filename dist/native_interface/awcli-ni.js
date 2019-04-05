@@ -33,6 +33,11 @@ io.on('connection', (socket) => {
             callback(adapters);
         });
     });
+    socket.on('removeAdapter', (id) => {
+        if (fs.existsSync(AWCLI_NI_WATCH_LOCATION + '/' + id + '.json')) {
+            fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + id + '.json');
+        }
+    });
 });
 fs.watch(AWCLI_NI_WATCH_LOCATION, (_, filename) => {
     try {
@@ -46,3 +51,7 @@ fs.watch(AWCLI_NI_WATCH_LOCATION, (_, filename) => {
         console.error(ex);
     }
 });
+function sendMessage(message, data) {
+    io.local.emit(message, data);
+}
+exports.sendMessage = sendMessage;
