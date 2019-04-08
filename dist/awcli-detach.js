@@ -25,7 +25,6 @@ function detachAdapter(adapterId) {
     let path = AWCLI_NI_WATCH_LOCATION + '/' + adapterId + '.json';
     if (fs.existsSync(path)) {
         fs.unlinkSync(path);
-        console.log('Detached adapter "' + adapterId + '".');
     }
     else {
         console.error('Could not detach package "' + adapterId + '"; package not attached.');

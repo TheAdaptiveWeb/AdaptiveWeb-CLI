@@ -37,6 +37,9 @@ io.on('connection', (socket) => {
         if (fs.existsSync(AWCLI_NI_WATCH_LOCATION + '/' + id + '.json')) {
             fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + id + '.json');
         }
+        if (adapterRemoveCallbacks[id] !== undefined && typeof adapterRemoveCallbacks[id] === 'function') {
+            adapterRemoveCallbacks[id]();
+        }
     });
 });
 fs.watch(AWCLI_NI_WATCH_LOCATION, (_, filename) => {
@@ -51,6 +54,11 @@ fs.watch(AWCLI_NI_WATCH_LOCATION, (_, filename) => {
         console.error(ex);
     }
 });
+let adapterRemoveCallbacks = {};
+function addOnAdapterRemove(adapterId, adapterRemoveCallback) {
+    adapterRemoveCallbacks[adapterId] = adapterRemoveCallback;
+}
+exports.addOnAdapterRemove = addOnAdapterRemove;
 function sendMessage(message, data) {
     io.local.emit(message, data);
 }

@@ -16,7 +16,7 @@
 import * as fs from 'fs';
 import * as Builder from './tasks/BuildHelpers';
 import { getConfig } from './tasks/LocateConfig';
-import { sendMessage } from './native_interface/awcli-ni';
+import { sendMessage, addOnAdapterRemove } from './native_interface/awcli-ni';
 import { devModeWarning, watchingFileChanges } from './tasks/Messages';
 import * as colors from 'colors';
 const watch: any = require('node-watch');
@@ -48,11 +48,21 @@ log(watchingFileChanges);
 Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
 log('Adapter ' + colors.bold(awconfig.id) + ' compilation successful!');
 
+let removedFromPlugin = false;
+
+addOnAdapterRemove(awconfig.id, () => {
+    log('Adapter removed from plugin. Exiting.');
+    removedFromPlugin = true;
+    process.exit();
+});
+
 process.on('beforeExit', () => {
-    log('Removing adapter');
-    sendMessage('removeAdapter', awconfig.id);
-    fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + awconfig.id + '.json');
-    log('Exiting');
+    if (!removedFromPlugin) {
+        log('Removing adapter');
+        sendMessage('removeAdapter', awconfig.id);
+        fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + awconfig.id + '.json');
+        log('Exiting');
+    }
 });
 
 watch(dir, { recursive: true }, (event: any, filename: string) => {

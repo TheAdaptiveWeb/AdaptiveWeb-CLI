@@ -43,11 +43,19 @@ loadConfig();
 log(Messages_1.watchingFileChanges);
 Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
 log('Adapter ' + colors.bold(awconfig.id) + ' compilation successful!');
+let removedFromPlugin = false;
+awcli_ni_1.addOnAdapterRemove(awconfig.id, () => {
+    log('Adapter removed from plugin. Exiting.');
+    removedFromPlugin = true;
+    process.exit();
+});
 process.on('beforeExit', () => {
-    log('Removing adapter');
-    awcli_ni_1.sendMessage('removeAdapter', awconfig.id);
-    fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + awconfig.id + '.json');
-    log('Exiting');
+    if (!removedFromPlugin) {
+        log('Removing adapter');
+        awcli_ni_1.sendMessage('removeAdapter', awconfig.id);
+        fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + awconfig.id + '.json');
+        log('Exiting');
+    }
 });
 watch(dir, { recursive: true }, (event, filename) => {
     try {
