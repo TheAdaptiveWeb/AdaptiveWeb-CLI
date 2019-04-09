@@ -16,14 +16,14 @@
 import * as npm from 'npm';
 
 const sharedDependencies: any = [ 
-    'webpack',
-    'adaptiveweb'
+	'webpack',
+	'adaptiveweb'
 ];
 
 const typescriptDependencies: any = [
-    ...sharedDependencies,
-    'typescript',
-    'ts-loader'
+	...sharedDependencies,
+	'typescript',
+	'ts-loader'
 ];
 
 const tsconfig =
@@ -42,8 +42,8 @@ const tsconfig =
 
 export const Package = {
 
-json: (adapter: any, git: string) =>
-`{
+	json: (adapter: any, git: string) =>
+		`{
     "name": "@adaptiveweb/${adapter.id}",
     "version": "${adapter.version}",
     "description": "${adapter.description}",
@@ -61,26 +61,26 @@ json: (adapter: any, git: string) =>
         "url": "${git}/issues"
     },
     "homepage": "${git}#readme",`
-    }
+}
     "author": "${adapter.author}",
     "license": "MPL-2.0",
     "dependencies": {}
 }`,
 
-installDependencies: (deps: string[], callback: Function) => {
-    npm.load(function(err: any) {
-        if (err) { console.error(err); return callback(); }
+	installDependencies: (deps: string[], callback: Function) => {
+		npm.load(function(err: any) {
+			if (err) { console.error(err); return callback(); }
 
-        npm.commands.install(deps, function(_err: any, _data: any) {
-            callback();
-        });
+			npm.commands.install(deps, function(_err: any, _data: any) {
+				callback();
+			});
 
-        npm.on('log', function(message: string) {
-            console.log(message);
-        });
-    });
-},
+			npm.on('log', function(message: string) {
+				console.log(message);
+			});
+		});
+	},
 
-sharedDependencies, typescriptDependencies, tsconfig
+	sharedDependencies, typescriptDependencies, tsconfig
 
-}
+};

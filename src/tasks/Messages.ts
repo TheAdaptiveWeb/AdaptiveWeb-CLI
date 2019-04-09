@@ -26,8 +26,8 @@ Press ^C at any time to quit.`;
 
 export const nextSteps =
 `Next steps:
-- ${colors.red(`\`awcli run\``)}:     start the watcher and test your changes in the browser,
-- ${colors.red(`\`awcli build\``)}:   build a production-ready version of your adapter
+- ${colors.red('`awcli run`')}:     start the watcher and test your changes in the browser,
+- ${colors.red('`awcli build`')}:   build a production-ready version of your adapter
 
 Visit ${colors.blue(colors.underline('https://github.com/TheAdaptiveWeb/docs'))} for developer documentation.
 
@@ -44,4 +44,4 @@ visit the settings menu (on the sidebar), and enable developer mode.
 `;
 
 export const watchingFileChanges =
-`Watching for file changes.`;
+'Watching for file changes.';

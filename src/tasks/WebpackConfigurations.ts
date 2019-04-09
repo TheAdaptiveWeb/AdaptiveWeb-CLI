@@ -14,7 +14,7 @@
  */
 
 export const Default: Function = (entry: string) =>
-`const path = require("path");
+	`const path = require("path");
 
 module.exports = {
     entry: {
@@ -31,7 +31,7 @@ module.exports = {
 };`; 
 
 export const Typescript: Function = (entry: string) =>
-`const path = require("path");
+	`const path = require("path");
 
 module.exports = {
     entry: {
@@ -41,7 +41,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
+                test: /\\.tsx?$/,
                 use: 'ts-loader',
                 exclude: /node_modules/
             }

@@ -15,7 +15,7 @@
 
 export default {
 
-typescript:
+	typescript:
 `import { AdapterContext } from 'adaptiveweb';
 declare const aw: AdapterContext;
 
@@ -34,7 +34,7 @@ declare const aw: AdapterContext;
 
 console.log('Hello, Adaptive Web!');`,
 
-javascript:
+	javascript:
 `/**
  * You can reference the AdapterContext with \`aw.[context method]\`.
  * 
@@ -49,4 +49,4 @@ javascript:
  */
 
 console.log('Hello, Adaptive Web!');`
-}
+};

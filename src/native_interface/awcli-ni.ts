@@ -28,58 +28,58 @@ const port = 13551;
 
 let server = http.listen(port);
 server.on('error', (err: any) => {
-    server.close();
+	server.close();
 });
 
 function createIfNonExistant(path: string) {
-    if (!fs.existsSync(path)) fs.mkdirSync(path, { recursive: true });
+	if (!fs.existsSync(path)) fs.mkdirSync(path, { recursive: true });
 }
 
 createIfNonExistant(AWCLI_NI_WATCH_LOCATION);
 
 function loadAdapter(filename: string): any {
-    let path = AWCLI_NI_WATCH_LOCATION + '/' + filename;
-    if (!fs.existsSync(path)) return;
-    let raw: string = fs.readFileSync(path, 'utf8');
-    let json: any = JSON.parse(raw);
-    return json;
+	let path = AWCLI_NI_WATCH_LOCATION + '/' + filename;
+	if (!fs.existsSync(path)) return;
+	let raw: string = fs.readFileSync(path, 'utf8');
+	let json: any = JSON.parse(raw);
+	return json;
 }
 
 // Start watching
 io.on('connection', (socket: any) => {
-    socket.on('requestAdapters', (callback: Function) => {
-        fs.readdir(AWCLI_NI_WATCH_LOCATION, (err, files) => {
-            let adapters = files.map(file => loadAdapter(file));
-            callback(adapters);
-        });
-    });
+	socket.on('requestAdapters', (callback: Function) => {
+		fs.readdir(AWCLI_NI_WATCH_LOCATION, (err, files) => {
+			let adapters = files.map(file => loadAdapter(file));
+			callback(adapters);
+		});
+	});
 
-    socket.on('removeAdapter', (id: string) => {
-        if (fs.existsSync(AWCLI_NI_WATCH_LOCATION + '/' + id + '.json')) {
-            fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + id + '.json');
-        }
-        if (adapterRemoveCallbacks[id] !== undefined && typeof adapterRemoveCallbacks[id] === 'function') {
-            adapterRemoveCallbacks[id]();
-        }
-    });
+	socket.on('removeAdapter', (id: string) => {
+		if (fs.existsSync(AWCLI_NI_WATCH_LOCATION + '/' + id + '.json')) {
+			fs.unlinkSync(AWCLI_NI_WATCH_LOCATION + '/' + id + '.json');
+		}
+		if (adapterRemoveCallbacks[id] !== undefined && typeof adapterRemoveCallbacks[id] === 'function') {
+			adapterRemoveCallbacks[id]();
+		}
+	});
 });
 
 fs.watch(AWCLI_NI_WATCH_LOCATION, (_, filename) => {
-    try {
-        if (filename.endsWith('.json')) {
-            // Load file
-            let json = loadAdapter(filename);
-            io.local.emit('adapterUpdate', json);
-        }
-    } catch (ex) { console.error(ex); }
+	try {
+		if (filename.endsWith('.json')) {
+			// Load file
+			let json = loadAdapter(filename);
+			io.local.emit('adapterUpdate', json);
+		}
+	} catch (ex) { console.error(ex); }
 });
 
-let adapterRemoveCallbacks: any = {}
+let adapterRemoveCallbacks: any = {};
 
 export function addOnAdapterRemove(adapterId: string, adapterRemoveCallback: Function) {
-    adapterRemoveCallbacks[adapterId] = adapterRemoveCallback;
+	adapterRemoveCallbacks[adapterId] = adapterRemoveCallback;
 }
 
 export function sendMessage(message: string, data: any) {
-    io.local.emit(message, data);
+	io.local.emit(message, data);
 }
