@@ -40,6 +40,11 @@ function loadConfig() {
     awconfig.webpackConfig = dir + '/' + awconfig.webpackConfig;
 }
 loadConfig();
+function createIfNonExistant(path) {
+    if (!fs.existsSync(path))
+        fs.mkdirSync(path, { recursive: true });
+}
+createIfNonExistant(AWCLI_NI_WATCH_LOCATION);
 log(Messages_1.watchingFileChanges);
 Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
 log('Adapter ' + colors.bold(awconfig.id) + ' compilation successful!');

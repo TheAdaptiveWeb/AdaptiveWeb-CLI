@@ -44,6 +44,12 @@ function loadConfig() {
 }
 loadConfig();
 
+function createIfNonExistant(path: string) {
+	if (!fs.existsSync(path)) fs.mkdirSync(path, { recursive: true });
+}
+
+createIfNonExistant(AWCLI_NI_WATCH_LOCATION);
+
 log(watchingFileChanges);
 Builder.build(awconfig, AWCLI_NI_WATCH_LOCATION);
 log('Adapter ' + colors.bold(awconfig.id) + ' compilation successful!');
